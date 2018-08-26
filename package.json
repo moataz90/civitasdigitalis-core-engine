@@ -1,0 +1,11 @@
+{
+  "name": "civitasdigitalis-core-engine",
+  "version": "1.0.0",
+  "description": "civitasdigitalis backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Moataz Ibrahim",
+  "license": "ISC"
+}
