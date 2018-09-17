@@ -3,6 +3,7 @@ import {defaultConversationSchema } from './conversationSchema/default';
 import * as WebSocket from 'ws';
 import { parse } from 'querystring';
 import { json } from 'body-parser';
+import * as axios from 'axios';
 
 export interface IIdea{
     category: string;
@@ -90,6 +91,17 @@ public loadConversationSchema(): IConversationSchema {
 }
 
 
+// get example 
+public getdata(){
+    axios.default.get('http://civitasdigitalis.fortiss.org/classification/lemma/all')
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
 
 /**
  * formatMessage
@@ -126,7 +138,46 @@ public formatMessage(payload : IPayload |undefined, messageType?: StepType):stri
                                                               {"content_type":"text","title":"Tag3","payload":"Tag3"}
                                                             ]},"timestamp":1535549101966}};
 
-        
+    let carouselMessage={  
+            "cards":[  
+               {  
+                  "title":"Kundenservice",
+                  "subtitle":"Online-Status",
+                  "imageUrl":"",
+                  "buttons":[  
+                     {  
+                        "title":"Kundenservice",
+                        "payload":"{\"intent\":\"8d877489-5a3a-432e-8ebb-0109b203724e\"}",
+                        "type":1
+                     }
+                  ]
+               },
+               {  
+                  "title":"Kontakt",
+                  "subtitle":"Online-Status",
+                  "imageUrl":"",
+                  "buttons":[  
+                     {  
+                        "title":"Kontakt",
+                        "payload":"{\"intent\":\"KontaktAllgemein\"}",
+                        "type":1
+                     }
+                  ]
+               },
+               {  
+                  "title":"Online Kundenportal",
+                  "subtitle":"Online-Status",
+                  "imageUrl":"",
+                  "buttons":[  
+                     {  
+                        "title":"Zum Kundenportal",
+                        "payload":"https://kundenportal.stadtwerke-troisdorf.de/",
+                        "type":0
+                     }
+                  ]
+               }
+            ]
+         };
 
         if(messageType === StepType.Category){
      
