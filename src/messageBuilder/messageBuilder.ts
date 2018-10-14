@@ -1,117 +1,12 @@
-
-import { defaultConversationSchema, DemoConversationSchema } from './conversationSchema/default';
-import * as WebSocket from 'ws';
-import { parse } from 'querystring';
-import { json } from 'body-parser';
-import * as axios from 'axios';
-
-export interface IIdea {
-    category: string;
-    title: string;
-    body: string;
-    email: string;
-    tags: string;
-}
+import { IPayload, StepType, } from './../interfaces/commonInterfaces'
 
 
-export class Conversation {
+export class MessageBuilder {
 
-    private _conversationSchema: IConversationSchema;
-    private _currentStep: number;
-    private _ws: WebSocket;
-    private _idea: IIdea;
-
-    constructor(ws: WebSocket) {
-        this._conversationSchema = this.loadConversationSchema();
-        this._currentStep = 0;
-        this._ws = ws;
-        this._idea = { category: "", title: "", body: "", email: "", tags: "" };
-
-    }
-    private nextStep(nextstep? : number) {
-        setTimeout(() => {
-            if(nextstep){
-
-                this._currentStep = nextstep;
-            }else{
-                this._currentStep++;
-            }
-            
-            if (this._conversationSchema.steps[this._currentStep].stepDirection === StepDirection.Out) {
-                this.messageRecieved("");
-            }
-        }, 1500);
-    }
-
-    public messageRecieved(message: string) {
-
-
-console.log(message);
-
-        let nextStep = Object.assign({}, this._conversationSchema.steps[this._currentStep]);
-
-
-        if (this._conversationSchema.steps[this._currentStep].stepDirection === StepDirection.Out && this._conversationSchema.steps[this._currentStep].payload !== undefined) {
-            this.sendMessage((this.formatMessage(this._conversationSchema.steps[this._currentStep].payload, this._conversationSchema.steps[this._currentStep].stepType)), this._conversationSchema.steps[this._currentStep].NextStep);
-
-        } if (this._conversationSchema.steps[this._currentStep].stepDirection === StepDirection.In) {
-            this.validateRecievedMessage(this._conversationSchema.steps[this._currentStep], message);
-        }
-
-    }
-
-    public validateRecievedMessage(step: IConversationStep, message: string) {
-        let mess = JSON.parse(message);
-        if (step.stepDirection === StepDirection.In && step.stepType === StepType.Category) {
-            this._idea.category = mess["postback"]["payload"];
-            this.nextStep(step.NextStep);
-        }
-        else if (step.stepDirection === StepDirection.In && step.stepType === StepType.TextBody) {
-            this._idea.body = mess["message"]["text"];
-            this.nextStep(step.NextStep);
-        }
-        else if (step.stepDirection === StepDirection.In && step.stepType === StepType.TextTitle) {
-            this._idea.title = mess["message"]["text"];
-            this.nextStep(step.NextStep);
-        } else if (step.stepDirection === StepDirection.In && step.stepType === StepType.Tags) {
-            this._idea.tags = mess["postback"]["payload"];
-            this.nextStep(step.NextStep);
-        } else if (step.stepDirection === StepDirection.In && step.stepType === StepType.Email) {
-            this._idea.email = mess["message"]["text"];
-            this.nextStep(step.NextStep);
-        }
-
-    }
-
-
-    public sendMessage(message: string, nextStep?: number) {
-        this._ws.send(message);
-        console.log(nextStep + "asdsd");
-        this.nextStep(nextStep);
-    }
-
-    public loadConversationSchema(): IConversationSchema {
-
-        return DemoConversationSchema;
-    }
-
-
-    // get example 
-    public getdata() {
-        axios.default.get('http://civitasdigitalis.fortiss.org/classification/lemma/all')
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-
-    /**
+        /**
      * formatMessage
      */
-    public formatMessage(payload: IPayload | undefined, messageType?: StepType): string {
+    public  static buildMessage(payload: IPayload | undefined, messageType?: StepType): string {
         console.log("Formatting message %s  %s", payload, messageType);
 
         let textMessage = payload ? payload.message : "";
@@ -176,18 +71,13 @@ console.log(message);
                             "elements": [
                                 {
                                     "image_url": "",
-                                    "title": "Kundenservice",
+                                    "title": "Add another idea",
                                     "subtitle": "Online-Status",
                                     "buttons": [
                                         {
-                                            "title": "to website",
-                                            "url": "https://www.google.com/",
-                                            "type": "web_url"
-                                        },
-                                        {
-                                            "title": "to map",
-                                            "url": "https://www.google.com/maps",
-                                            "type": "web_url"
+                                            "type":"postback",
+                                            "title":"Start",
+                                            "payload":"{\"intent\":\"start\"}"
                                         }
                                     ]
                                 },
@@ -302,48 +192,4 @@ console.log(message);
 
 
     }
-
-}
-
-
-
-export enum StepType {
-    Text = 'text',
-    TextBody = 'textBody',
-    TextTitle = 'textBody',
-    Tags = 'tags',
-    Category = 'Category',
-    Map = 'map',
-    Webview = 'webview',
-    Email = 'email',
-    Carousel = 'carousel'
-}
-
-export enum StepDirection {
-    In = 'in',
-    Out = 'out'
-}
-
-enum payloadType {
-}
-
-export interface IConversationStep {
-    stepID: number,
-    stepDirection: StepDirection,
-    stepType: StepType,
-    payload?: IPayload,
-    analyse?: boolean,
-    api?: string,
-    NextStep?: number
-
-}
-
-
-export interface IPayload {
-    message: string;
-    quickReplies?: any[];
-
-}
-export interface IConversationSchema {
-    steps: IConversationStep[]
 }

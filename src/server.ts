@@ -2,21 +2,12 @@ import * as express from 'express';
 import * as http from 'http';
 import * as WebSocket from 'ws';
 import { AddressInfo } from 'net';
-import { json } from 'body-parser';
-import {Conversation} from './conversation'
+import {Conversation} from './conversation/conversation';
+import {HTTPStatusCodes , IMessagingObject} from './interfaces/commonInterfaces'
+import {v4} from 'uuid';
 
 
-export enum WSMessageEvent {
-	UserNotFound = 'user_not_found',
-	UserFound = 'user_found',
-	UserCreated = 'user_created',
-	PUIDInvalid = 'puid_invalid',
-	PageIDNotFound = 'pageid_not_found',
-	PageIDMissing = 'pageid_missing',
-	VerfiyTokenMissing = 'verifytoken_missing',
-	ConnectionRejected = 'connection_rejected',
-	NewMessage = 'new_message'
-}
+
 
 interface ICleint{
     conversations: Conversation[];
@@ -36,21 +27,29 @@ let conversation : Conversation;
 
 wss.on('connection', (ws: WebSocket) => {
    
-    let user = JSON.stringify({ statusCode: 202, connected: true, type: WSMessageEvent.UserFound, payload: '123' });
-    conversation = new  Conversation(ws)
+    conversation = new  Conversation(ws,v4());
     conversation.loadConversationSchema();
-    
-    //connection is up, let's add a simple simple event
-    ws.on('message', (message: string) => {
-        conversation.messageRecieved(message);
 
-       
-       // ws.send(`Hello, you sent -> ${message}`);
+    ws.on('message', (message: string) => {
+        let inComingMessage = JSON.parse(message);
+		// Plugin / Facebook specific check
+		if (typeof inComingMessage !== 'object') {
+			ws.send(HTTPStatusCodes.NOT_FOUND.toString());
+
+			return;
+		}
+
+		const wsPayload = inComingMessage as IMessagingObject;
+		if (!wsPayload.recipient || !wsPayload.recipient.id) {
+			ws.send(HTTPStatusCodes.BAD_REQUEST.toString());
+
+            return;
+        }
+
+        conversation.messageRecieved(wsPayload);
     });
  
-    
-   
-    ws.send(user);
+    ws.send(conversation.getConversationStatus());
 });
 
 
