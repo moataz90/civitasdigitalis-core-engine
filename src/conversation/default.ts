@@ -19,10 +19,9 @@ const defaultConversationSchema: IConversationSchema= {steps:[
     {stepID: 10, stepDirection: StepDirection.In,stepType:StepType.Tags},
     {stepID: 12, stepDirection: StepDirection.Out,stepType:StepType.Text, payload:{message :"You can insert your email asddress"}},
     {stepID: 13, stepDirection: StepDirection.In,stepType:StepType.Email  , payload :{message :"Please insert a valid e-mail address" }},
-    {stepID: 14, stepDirection: StepDirection.Out,stepType:StepType.Text, payload:{message :"Thanks for your contribution "}},
-    {stepID: 15, stepDirection: StepDirection.Out,stepType:StepType.Text, payload:{message :"Here are some ideas of other people that might interest you"}},
+    {stepID: 14, stepDirection: StepDirection.Out,stepType:StepType.Text, payload:{message :"Thanks for your contribution, Here are some ideas of other people that might interest you "}},
     {stepID: 16, stepDirection: StepDirection.Out,stepType:StepType.Carousel},
-    {stepID: 17, stepDirection: StepDirection.In,stepType:StepType.End}
+    {stepID: 17, stepDirection: StepDirection.In,stepType:StepType.End, NextStep : 13}
     
 ]
 // ,intentSteps:[

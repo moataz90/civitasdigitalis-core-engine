@@ -16,7 +16,7 @@ export interface IIdea {
 export enum StepType {
     Text = 'text',
     TextBody = 'textBody',
-    TextTitle = 'textBody',
+    TextTitle = 'textTitle',
     Tags = 'tags',
     Category = 'Category',
     Map = 'map',
@@ -186,4 +186,11 @@ export enum HTTPStatusCodes {
 	SERVICE_UNAVAILABLE = 503,
 	GATEWAY_TIMEOUT = 504,
 	HTTP_VERSION_NOT_SUPPORTED = 505,
+}
+
+
+
+
+export enum Intents{
+	RestartConversation =  'restartConversation'
 }

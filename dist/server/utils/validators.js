@@ -19,6 +19,7 @@ class Validator {
         s = s.replace(/(^\s*)|(\s*$)/gi, "");
         s = s.replace(/[ ]{2,}/gi, " ");
         s = s.replace(/\n /, "\n");
+        console.log("length: " + s.split(' ').length + " should be " + length);
         return (s.split(' ').length >= length) ? true : false;
     }
 }

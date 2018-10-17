@@ -37,7 +37,6 @@ class Conversation {
         else {
             this.messageStepOut(isPrevStepValidationPassed);
         }
-        console.log(this._currentStep);
         if (this._conversationSchema.steps[this._currentStep].stepDirection === commonInterfaces_1.StepDirection.Out) {
             this.messageStepOut(isPrevStepValidationPassed);
         }
@@ -74,6 +73,7 @@ class Conversation {
         }
         else if (step.stepDirection === commonInterfaces_1.StepDirection.In && step.stepType === commonInterfaces_1.StepType.TextBody) {
             let isValid = validators_1.Validator.validatetTextLength(messageText, 10);
+            console.log("koko 1");
             if (isValid) {
                 this._idea.body = messageText;
             }
@@ -82,6 +82,7 @@ class Conversation {
             }
         }
         else if (step.stepDirection === commonInterfaces_1.StepDirection.In && step.stepType === commonInterfaces_1.StepType.TextTitle) {
+            console.log("koko 2");
             let isValid = validators_1.Validator.validatetTextLength(messageText, 3);
             if (isValid) {
                 this._idea.title = messageText;
@@ -101,6 +102,9 @@ class Conversation {
             else {
                 isDone = false;
             }
+        }
+        else if (step.stepDirection === commonInterfaces_1.StepDirection.In && step.stepType === commonInterfaces_1.StepType.End) {
+            isDone = true;
         }
         return isDone;
     }

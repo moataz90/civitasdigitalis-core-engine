@@ -7,7 +7,6 @@ export class MessageBuilder {
      * formatMessage
      */
     public  static buildMessage(payload: IPayload | undefined, messageType?: StepType): string {
-        console.log("Formatting message %s  %s", payload, messageType);
 
         let textMessage = payload ? payload.message : "";
         let basicMessage = {
@@ -78,6 +77,11 @@ export class MessageBuilder {
                                             "type":"postback",
                                             "title":"Start",
                                             "payload":"{\"intent\":\"start\"}"
+                                        },
+                                        {
+                                            "title": "Review your idea",
+                                            "url": "http://localhost:8080/index2.html?ideaTitle=newIdea",
+                                            "type": "web_url"
                                         }
                                     ]
                                 },
@@ -89,11 +93,6 @@ export class MessageBuilder {
                                         {
                                             "title": "to website",
                                             "url": "https://www.google.com/",
-                                            "type": "web_url"
-                                        },
-                                        {
-                                            "title": "to map",
-                                            "url": "https://www.google.com/maps",
                                             "type": "web_url"
                                         }
                                     ]

@@ -4,7 +4,7 @@ var StepType;
 (function (StepType) {
     StepType["Text"] = "text";
     StepType["TextBody"] = "textBody";
-    StepType["TextTitle"] = "textBody";
+    StepType["TextTitle"] = "textTitle";
     StepType["Tags"] = "tags";
     StepType["Category"] = "Category";
     StepType["Map"] = "map";
@@ -86,4 +86,8 @@ var HTTPStatusCodes;
     HTTPStatusCodes[HTTPStatusCodes["GATEWAY_TIMEOUT"] = 504] = "GATEWAY_TIMEOUT";
     HTTPStatusCodes[HTTPStatusCodes["HTTP_VERSION_NOT_SUPPORTED"] = 505] = "HTTP_VERSION_NOT_SUPPORTED";
 })(HTTPStatusCodes = exports.HTTPStatusCodes || (exports.HTTPStatusCodes = {}));
+var Intents;
+(function (Intents) {
+    Intents["RestartConversation"] = "restartConversation";
+})(Intents = exports.Intents || (exports.Intents = {}));
 //# sourceMappingURL=commonInterfaces.js.map

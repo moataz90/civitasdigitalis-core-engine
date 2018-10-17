@@ -14,10 +14,9 @@ const defaultConversationSchema = { steps: [
         { stepID: 10, stepDirection: commonInterfaces_1.StepDirection.In, stepType: commonInterfaces_1.StepType.Tags },
         { stepID: 12, stepDirection: commonInterfaces_1.StepDirection.Out, stepType: commonInterfaces_1.StepType.Text, payload: { message: "You can insert your email asddress" } },
         { stepID: 13, stepDirection: commonInterfaces_1.StepDirection.In, stepType: commonInterfaces_1.StepType.Email, payload: { message: "Please insert a valid e-mail address" } },
-        { stepID: 14, stepDirection: commonInterfaces_1.StepDirection.Out, stepType: commonInterfaces_1.StepType.Text, payload: { message: "Thanks for your contribution " } },
-        { stepID: 15, stepDirection: commonInterfaces_1.StepDirection.Out, stepType: commonInterfaces_1.StepType.Text, payload: { message: "Here are some ideas of other people that might interest you" } },
+        { stepID: 14, stepDirection: commonInterfaces_1.StepDirection.Out, stepType: commonInterfaces_1.StepType.Text, payload: { message: "Thanks for your contribution, Here are some ideas of other people that might interest you " } },
         { stepID: 16, stepDirection: commonInterfaces_1.StepDirection.Out, stepType: commonInterfaces_1.StepType.Carousel },
-        { stepID: 17, stepDirection: commonInterfaces_1.StepDirection.In, stepType: commonInterfaces_1.StepType.End }
+        { stepID: 17, stepDirection: commonInterfaces_1.StepDirection.In, stepType: commonInterfaces_1.StepType.End, NextStep: 13 }
     ]
     // ,intentSteps:[
     //     {stepID: 1, stepDirection: StepDirection.In,stepType:StepType.Text , payload :{message :"Hallo!"}}

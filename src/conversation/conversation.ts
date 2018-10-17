@@ -51,8 +51,6 @@ export class Conversation {
         } else {
             this.messageStepOut(isPrevStepValidationPassed);
         }
-
-console.log(this._currentStep);
         if (this._conversationSchema.steps[this._currentStep].stepDirection === StepDirection.Out) {
             this.messageStepOut(isPrevStepValidationPassed);
         }
@@ -100,6 +98,7 @@ console.log(this._currentStep);
         }
         else if (step.stepDirection === StepDirection.In && step.stepType === StepType.TextBody) {
             let isValid = Validator.validatetTextLength(messageText, 10);
+            console.log("koko 1");
             if (isValid) {
                 this._idea.body = messageText;
 
@@ -109,6 +108,7 @@ console.log(this._currentStep);
 
         }
         else if (step.stepDirection === StepDirection.In && step.stepType === StepType.TextTitle) {
+            console.log("koko 2");
             let isValid = Validator.validatetTextLength(messageText, 3);
             if (isValid) {
                 this._idea.title = messageText;
@@ -129,7 +129,11 @@ console.log(this._currentStep);
                 isDone = false;
             }
 
+        }else if (step.stepDirection === StepDirection.In && step.stepType === StepType.End) {
+
+            isDone= true;
         }
+
         return isDone;
     }
 

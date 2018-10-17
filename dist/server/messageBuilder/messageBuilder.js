@@ -6,7 +6,6 @@ class MessageBuilder {
  * formatMessage
  */
     static buildMessage(payload, messageType) {
-        console.log("Formatting message %s  %s", payload, messageType);
         let textMessage = payload ? payload.message : "";
         let basicMessage = {
             "statusCode": 200,
@@ -73,6 +72,11 @@ class MessageBuilder {
                                             "type": "postback",
                                             "title": "Start",
                                             "payload": "{\"intent\":\"start\"}"
+                                        },
+                                        {
+                                            "title": "Review your idea",
+                                            "url": "http://localhost:8080/index2.html?ideaTitle=newIdea",
+                                            "type": "web_url"
                                         }
                                     ]
                                 },
@@ -84,11 +88,6 @@ class MessageBuilder {
                                         {
                                             "title": "to website",
                                             "url": "https://www.google.com/",
-                                            "type": "web_url"
-                                        },
-                                        {
-                                            "title": "to map",
-                                            "url": "https://www.google.com/maps",
                                             "type": "web_url"
                                         }
                                     ]
